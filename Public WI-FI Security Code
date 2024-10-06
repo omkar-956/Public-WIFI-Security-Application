@@ -1,0 +1,53 @@
+from flask import Flask, jsonify, render_template_string
+
+app = Flask(_name_)
+
+# Dummy data for network scanning
+networks = [
+    {"ssid": "CoffeeShop_WiFi", "security": "WPA2", "risk": "Secure"},
+    {"ssid": "Free_WiFi", "security": "None", "risk": "Insecure"},
+    {"ssid": "Malicious_Hotspot", "security": "WPA", "risk": "Malicious"},
+]
+
+# HTML template as a string
+html_template = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Wi-Fi Security Application</title>
+    <script>
+        async function scanNetworks() {
+            const response = await fetch('/scan');
+            const networks = await response.json();
+            const networkList = document.getElementById('network-list');
+            networkList.innerHTML = '';
+
+            networks.forEach(network => {
+                const li = document.createElement('li');
+                li.textContent = ${network.ssid} - Security: ${network.security} - Risk: ${network.risk};
+                networkList.appendChild(li);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Public Wi-Fi Security Application</h1>
+    <button onclick="scanNetworks()">Scan for Networks</button>
+    <ul id="network-list"></ul>
+</body>
+</html>
+"""
+
+@app.route('/')
+def index():
+    return render_template_string(html_template)
+
+@app.route('/scan', methods=['GET'])
+def scan_networks():
+    # Here you would include actual network scanning logic
+    return jsonify(networks)
+
+if _name_ == '_main_':
+    app.run(debug=True)
