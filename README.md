@@ -19,10 +19,6 @@ Requirements
 Python 3.x
 Flask (pip install Flask)
 
-How to Run
-Clone the repository:
-
-git clone https://github.com/your-username/public-wifi-security-scanner.git
 
 Navigate to the project directory:
 
